@@ -106,6 +106,12 @@
 #if ANY_THERMISTOR_IS(75) // Many of the generic silicon heat pads use the MGB18-104F39050L32 Thermistor
   #include "thermistortable_75.h"
 #endif
+#if ANY_THERMISTOR_IS(80) // Many of the generic silicon heat pads use the MGB18-104F39050L32 Thermistor
+  #include "thermistortable_80.h"
+#endif
+#if ANY_THERMISTOR_IS(81) // Many of the generic silicon heat pads use the MGB18-104F39050L32 Thermistor
+  #include "thermistortable_81.h"
+#endif
 #if ANY_THERMISTOR_IS(110) // Pt100 with 1k0 pullup
   #include "thermistortable_110.h"
 #endif
