@@ -98,7 +98,7 @@
 
 #if ENABLED(SANGUINOLOLU_V_1_2)
 
-  #define HEATER_BED_PIN   12 // (bed)
+  #define HEATER_BED_PIN   10 // (bed)
   #define X_ENABLE_PIN     14
   #define Y_ENABLE_PIN     14
   #define Z_ENABLE_PIN     26
