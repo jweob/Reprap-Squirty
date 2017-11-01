@@ -884,8 +884,7 @@
 
   // Set the boundaries for probing (where the probe can reach).
   #define LEFT_PROBE_BED_POSITION 10
-  #define RIGHT_PROBE_BED_POSITION 100
-  // ^ temporarily set to 100 because of belt tension issues
+  #define RIGHT_PROBE_BED_POSITION 135
   #define FRONT_PROBE_BED_POSITION 10
   #define BACK_PROBE_BED_POSITION 135
 
