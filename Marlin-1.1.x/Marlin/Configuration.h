@@ -43,7 +43,7 @@
 //============================= Getting Started =============================
 //===========================================================================
 
-/**
+/**busy
  * Here are some standard links for getting your machine calibrated:
  *
  * http://reprap.org/wiki/Calibration
@@ -884,7 +884,8 @@
 
   // Set the boundaries for probing (where the probe can reach).
   #define LEFT_PROBE_BED_POSITION 10
-  #define RIGHT_PROBE_BED_POSITION 135
+  #define RIGHT_PROBE_BED_POSITION 100
+  // ^ temporarily set to 100 because of belt tension issues
   #define FRONT_PROBE_BED_POSITION 10
   #define BACK_PROBE_BED_POSITION 135
 
@@ -1033,7 +1034,7 @@
 // When enabled Marlin will send a busy status message to the host
 // every couple of seconds when it can't accept commands.
 //
-#define HOST_KEEPALIVE_FEATURE        // Disable this if your host doesn't like keepalive messages
+//#define HOST_KEEPALIVE_FEATURE        // Disable this if your host doesn't like keepalive messages
 #define DEFAULT_KEEPALIVE_INTERVAL 2  // Number of seconds between "busy" messages. Set with M113.
 #define BUSY_WHILE_HEATING            // Some hosts require "busy" messages even during heating
 
