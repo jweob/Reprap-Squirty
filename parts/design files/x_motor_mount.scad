@@ -2,72 +2,52 @@
 // Original x motor mount was designed in solidworks, this is aan OpenSCAD alternative with bearings instead of igus bushings + a mechanism for tightening the x belt up to 5mm
 // jweob 2017-11-03
 
-$fs = 0.1;
+include <dependencies\main_thing\library.scad>;
 
-//
-big =9999;
-small =0.001;
+// Center point for reference is the center of the motor in its position nearest to smooth rod
 
+
+// Bolts that attach motor
 m_bolt_rad = 3.5/2;
 m_bolts_sep = 33.27;
 
+// How much the motor can be adjusted by in x direction
+sweep = 5;
+
+// Motor block
 m_block_xy = 32.5;
 m_block_z = 14;
+m_block_hole_r = 9;
 
+// Overall body (excluding motor block)
 body_w = 57;
 body_l = 46;
 body_h = 12.4;
 
-bearing_sep = 22;
-
-belt_tunn_l = 7;
-belt_tunn_h = 8.25;
-belt_tunn_z = 3;
-belt_tunn_sep = 13.5;
-
-smooth_rod_r=6/2;
-smooth_rod_z=2.85+smooth_rod_r;
-smooth_rod_sep=30;
-
-m_block_hole_r = 9;
-
-
-thread_rod_w = 13;
-thread_rod_l = 40;
-thread_rod_h = 24.15;
-thread_rod_r=5.4/2;
-thread_rod_z=17.45+thread_rod_r;
-
-thread_rod_slot_w =8.5;
-thread_rod_slot_l =12;
-
-
-bearing_rad = 12/2;
-bearing_to_rod = 25;
+// Bearing info
 bearing_x = body_w-thread_rod_w/2-bearing_to_rod;
-bearing_z = 20;
-bearing_wall = 3;
-bearing_l = 20;
-bearing_gap = bearing_rad;
-bearing_flange_w = bearing_wall;
-bearing_flange_h = 8;
-bearing_flange_bolt_r = 3.5/2;
 
-lug_w = (bearing_rad+bearing_wall)*2;
-lug_l = bearing_sep+bearing_l*2;
-
-
-sweep = 5;
-
+// Belt tightening hole
 belt_tighten_space = 2;
 belt_tighten_w = 3;
 belt_tighten_l = 6;
 tighten_hole_x=+m_bolts_sep/2+sweep+m_bolt_rad+belt_tighten_space*2+belt_tighten_w;
 belt_tighten_bolt_r=3.5/2;
 
+// Limit switch mount
+switch_hole_r = 2.5/2;
+switch_hole_x = 57 - (5.75+2.5/2);
+switch_hole_y = 10.5;
+switch_hole_sep_y = 9.5;
+switch_hole_h = 6;
+//echo(body_l/2-(switch_hole_y+switch_hole_sep_y));
+
+// Limit switch holes
+       
+
+
 mirror([0,1,0]) half_part();
 half_part();
-
 
 module half_part(){
 difference(){
@@ -128,6 +108,10 @@ difference(){
        translate([+m_bolts_sep/2+sweep+m_bolt_rad+belt_tighten_space+belt_tighten_w/2,0,big/2]) cube([belt_tighten_w,belt_tighten_l,big],center=true);
        translate([+m_bolts_sep/2, 0,body_h/2]) rotate([0,90,0]) cylinder(r=belt_tighten_bolt_r, h = tighten_hole_x-m_bolts_sep/2+small);
        
+       //Switch hole
+       translate([switch_hole_x, -switch_hole_y, -small]) cylinder(r=switch_hole_r, h=switch_hole_h+small);
+       translate([switch_hole_x, -switch_hole_y-switch_hole_sep_y, -small]) cylinder(r=switch_hole_r, h=switch_hole_h+small);
+       
        // Mirror line
        translate([-big/2,small,-big/2]) cube([big,big,big]);
         
@@ -135,20 +119,3 @@ difference(){
 }
 
 }
-
-module slot (rad, stretch, height) {
-    translate([0,0,0]) cylinder(r=rad,h=height);
-    translate([0,-rad,0])cube([stretch, rad*2, height]);
-    translate([stretch,0,0]) cylinder(r=rad,h=height);
-    }
-
-module rounded_cuboid(xyz, r){
-    //translate([-xyz[0]/2,-xyz[1]/2,0]) union(){
-    translate([r,r,0]) cylinder(r=r, h=xyz[2]);
-    translate([r,xyz[1]-r,0]) cylinder(r=r, h=xyz[2]);
-    translate([xyz[0]-r,xyz[1]-r,0]) cylinder(r=r, h=xyz[2]);
-    translate([xyz[0]-r,r,0]) cylinder(r=r, h=xyz[2]);
-    translate([0,r,0]) cube([xyz[0],xyz[1]-r*2, xyz[2]]);
-    translate([r,0,0]) cube([xyz[0]-r*2,xyz[1], xyz[2]]);
-    //}
-    }

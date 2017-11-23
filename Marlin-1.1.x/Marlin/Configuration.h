@@ -351,11 +351,11 @@
 
   // If you are using a pre-configured hotend then you can use one of the value sets by uncommenting it
 
-  // JWEOB - from autotune
+  // JWEOB - from autotune. Autotune stil has oscillation, so set Kd higher
   // RepRapPro Huxley
-    #define  DEFAULT_Kp 15.68
-    #define  DEFAULT_Ki 1.91
-    #define  DEFAULT_Kd 32.11
+    #define  DEFAULT_Kp 12.85
+    #define  DEFAULT_Ki 1.29
+    #define  DEFAULT_Kd 40
 
   // Ultimaker
   //    #define  DEFAULT_Kp 22.2
@@ -422,7 +422,7 @@
 // or to allow moving the extruder regardless of the hotend temperature.
 // *** IT IS HIGHLY RECOMMENDED TO LEAVE THIS OPTION ENABLED! ***
 #define PREVENT_COLD_EXTRUSION
-#define EXTRUDE_MINTEMP 170
+#define EXTRUDE_MINTEMP 150
 
 // This option prevents a single extrusion longer than EXTRUDE_MAXLENGTH.
 // Note that for Bowden Extruders a too-small value here may prevent loading.
@@ -867,7 +867,7 @@
  * Turn on with the command 'M111 S32'.
  * NOTE: Requires a lot of PROGMEM!
  */
-//#define DEBUG_LEVELING_FEATURE
+#define DEBUG_LEVELING_FEATURE
 
 #if ENABLED(MESH_BED_LEVELING) || ENABLED(AUTO_BED_LEVELING_BILINEAR) || ENABLED(AUTO_BED_LEVELING_UBL)
   // Gradually reduce leveling correction until a set height is reached,

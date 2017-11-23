@@ -1,6 +1,6 @@
-use <library.scad>;
-use <gears.scad>;
-include <config.scad>
+use <dependencies\extruder\library.scad>;
+use <extruder-gears-1off.scad>;
+include <dependencies\extruder\config.scad>
 
 $fn=64;
 filament_d=1.75+0.2;

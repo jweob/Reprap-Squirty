@@ -8,10 +8,10 @@ include <dependencies\extruder\parametric_involute_gear_v5.0.scad>
 shaft_flat = 2;      // Radial distance of D flat on the shaft from its axis.  Set to...
 motor_shaft = 5.0;
 
-rotate([180,0,0]) translate([0,0,-7])
-translate ([19.9028,0,1]) //was translate ([19.2588,0,1])
-translate([0,50,0])
-	large_gear();
+//rotate([180,0,0]) translate([0,0,-7])
+//translate ([19.9028,0,1]) //was translate ([19.2588,0,1])
+//translate([0,50,0])
+	//large_gear();
 translate([10,10,0])
 rotate([0,0,0]) translate([0,0,-3]) rotate([0,0,0])
 	//color([1,1,1,0.3])

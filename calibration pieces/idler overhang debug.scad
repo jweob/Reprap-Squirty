@@ -2,7 +2,7 @@
 // Original x motor mount was designed in solidworks, this is aan OpenSCAD alternative with bearings instead of igus bushings + a mechanism for tightening the x belt up to 5mm
 // jweob 2017-11-03
 
-include <dependencies\main_thing\library.scad>;
+include <..\parts\design files\dependencies\main_thing\library.scad>;
 
 bearing_x = 0;
 
@@ -23,7 +23,7 @@ rod_nut_hole_r = 3.4/2;
 
 // Top level
 mirror([0,1,0]) half_part();
-half_part();
+//half_part();
 
 
 module half_part(){
