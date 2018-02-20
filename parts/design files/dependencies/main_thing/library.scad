@@ -1,7 +1,7 @@
 // Parameters used for making cuts clean, holes round
 $fs = 0.1;
 big =9999;
-small =0.001;
+small =0.01;
 
 // The slot that the nut fits into on threaded rod assembly
 thread_rod_slot_w =8.5;
@@ -20,17 +20,17 @@ smooth_rod_z=6;
 smooth_rod_sep=30;
 
 // Belt tunnel
-belt_tunn_l = 7;
+belt_tunn_l = 6;
 belt_tunn_h = 8.25;
 belt_tunn_z = 3;
-belt_tunn_sep = 13.5;
+belt_tunn_sep = 14;
 
 // Bearings for z axis
 bearing_z = 20;
 bearing_wall = 3;
 bearing_l = 20;
 bearing_sep = 22;
-bearing_rad = 12.25/2;
+bearing_rad = 12.2/2;
 bearing_gap = bearing_rad;
 bearing_flange_w = bearing_wall;
 bearing_flange_h = 8;
@@ -41,6 +41,7 @@ bearing_to_rod = 25;
 lug_w = (bearing_rad+bearing_wall)*2;
 lug_l = bearing_sep+bearing_l*2;
 
+// Nut pocket settings
 
 
 module slot (rad, stretch, height) {
@@ -59,3 +60,10 @@ module rounded_cuboid(xyz, r){
     translate([r,0,0]) cube([xyz[0]-r*2,xyz[1], xyz[2]]);
     //}
     }
+
+module nut_pocket(pocket_l = 6, pocket_h = 2.5, pocket_w = big){
+    // Pocket for a nut (M3 by default). Origin is center of nut position
+    cylinder(r=pocket_l/2/cos(30), h=pocket_h, center=true, $fa=60);
+    translate([pocket_w/2,0,0]) cube([pocket_w, pocket_l, pocket_h], center=true);
+}
+

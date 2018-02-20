@@ -9,7 +9,9 @@ include <dependencies\main_thing\library.scad>;
 
 // Bolts that attach motor
 m_bolt_rad = 3.5/2;
-m_bolts_sep = 33.27;
+m_bolts_sep_untilted = 26;
+m_bolts_sep = 2 * sin(45) * m_bolts_sep_untilted;
+
 
 // How much the motor can be adjusted by in x direction
 sweep = 5;
@@ -17,7 +19,9 @@ sweep = 5;
 // Motor block
 m_block_xy = 32.5;
 m_block_z = 14;
-m_block_hole_r = 9;
+m_block_hole_r1 = 9;
+m_block_hole_r2 = 23/2;
+m_block_depth = 2.5;
 
 // Overall body (excluding motor block)
 body_w = 57;
@@ -33,6 +37,7 @@ belt_tighten_w = 3;
 belt_tighten_l = 6;
 tighten_hole_x=+m_bolts_sep/2+sweep+m_bolt_rad+belt_tighten_space*2+belt_tighten_w;
 belt_tighten_bolt_r=3.5/2;
+belt_tighten_cap_r=5.5/2;
 
 // Limit switch mount
 switch_hole_r = 2.5/2;
@@ -42,7 +47,15 @@ switch_hole_sep_y = 9.5;
 switch_hole_h = 6;
 //echo(body_l/2-(switch_hole_y+switch_hole_sep_y));
 
-// Limit switch holes
+// Bearing retainers
+bear_retain_w = 8;
+bear_retain_h = bearing_rad+bearing_wall+bearing_z;
+bear_retain_y = 27.5;
+bear_retain_x = bearing_x;
+bear_retain_l = ((bearing_l+bearing_sep/2)-bear_retain_y)*2;
+bear_retain_r = 3.5/2;
+bear_retain_hole_w=2.5;
+bear_retain_hole_h=6;
        
 
 
@@ -58,8 +71,9 @@ difference(){
             // Z bearing assembly
             translate([bearing_x-lug_w/2, -(bearing_l+bearing_sep/2),0]) cube([lug_w,bearing_l,bearing_z]);
                 translate([bearing_x, -(bearing_l+bearing_sep/2), bearing_z]) rotate([-90,0,0]) cylinder(r=(bearing_rad+bearing_wall), h=bearing_l);
-            translate([bearing_x-bearing_flange_w- bearing_gap/2, -(bearing_l+bearing_sep/2),bearing_z+bearing_rad]) cube([(bearing_gap+bearing_flange_w*2),bearing_l,bearing_flange_h]);
-                
+            
+            // Z bearing retainers
+            translate([-(bear_retain_w+bearing_rad)+bear_retain_x,-bear_retain_y-bear_retain_l/2,0]) cube([bear_retain_w+bearing_rad, bear_retain_l, bear_retain_h]);
             
             // Motor plinth
             translate([-sweep,-m_block_xy / sin(45) / 2,0]) union(){
@@ -75,7 +89,8 @@ difference(){
       
         translate([-sweep,-m_block_xy / sin(45) / 2,-small]){
         // Motor & pulley groove
-        translate([0,m_block_xy/sin(45)/2,-small]) slot(m_block_hole_r, sweep, big);
+        translate([0,m_block_xy/sin(45)/2,-small]) slot(m_block_hole_r1, sweep, big);
+        translate([0,m_block_xy/sin(45)/2, m_block_z-m_block_depth]) slot(m_block_hole_r2, sweep, big);
         
         // Bolt grooves
         translate([0,m_block_xy/sin(45)/2-m_bolts_sep/2,0]) slot(m_bolt_rad, sweep, big);
@@ -86,7 +101,6 @@ difference(){
        // Z bearings
        translate([bearing_x, -big/2, bearing_z]) rotate([-90,0,0]) cylinder(r=bearing_rad, h=big);
        translate([bearing_x, -big/2, bearing_z + big/2]) rotate([-90,0,0]) cube([bearing_gap,big,big], center=true);
-       translate([0, -(bearing_l+bearing_sep)/2,bearing_z+bearing_rad+bearing_flange_h/2]) rotate([0,90,0]) cylinder(r=bearing_flange_bolt_r, h = big);
             
        // Hole for the belt
        translate([tighten_hole_x,-bearing_sep/2,-small]) rounded_cuboid([body_w-thread_rod_w-tighten_hole_x,bearing_sep,big],2);
@@ -107,6 +121,15 @@ difference(){
        // Belt tightening hole
        translate([+m_bolts_sep/2+sweep+m_bolt_rad+belt_tighten_space+belt_tighten_w/2,0,big/2]) cube([belt_tighten_w,belt_tighten_l,big],center=true);
        translate([+m_bolts_sep/2, 0,body_h/2]) rotate([0,90,0]) cylinder(r=belt_tighten_bolt_r, h = tighten_hole_x-m_bolts_sep/2+small);
+       translate([+m_bolts_sep/2+sweep+m_bolt_rad+belt_tighten_space+belt_tighten_w/2,0,big/2]) cube([belt_tighten_w,belt_tighten_l,big],center=true);
+       translate([tighten_hole_x, 0,body_h/2]) rotate([0,90,0]) cylinder(r=belt_tighten_cap_r, h = big);
+       
+       // Z bearing retainers
+       translate([bear_retain_x,0,0]){
+       translate([-big, -bear_retain_y, bearing_z]) rotate([0,90,0])cylinder(r=bear_retain_r , h=big);
+       translate([-(bear_retain_w/2+bearing_rad), -bear_retain_y-small/2, bearing_z]) rotate([-90,0,0]) rotate([0,90,0]) nut_pocket();
+       translate([bearing_x, -big/2, bearing_z + big/2]) rotate([-90,0,0]) cube([bearing_gap,big,big], center=true);
+       }
        
        //Switch hole
        translate([switch_hole_x, -switch_hole_y, -small]) cylinder(r=switch_hole_r, h=switch_hole_h+small);

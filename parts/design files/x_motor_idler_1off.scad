@@ -21,6 +21,17 @@ rod_nut_hole_w = 3;
 rod_nut_hole_l = 5.8;
 rod_nut_hole_r = 3.4/2;
 
+// Bearing retainers
+bear_retain_w = 8;
+bear_retain_h = bearing_rad+bearing_wall+bearing_z;
+bear_retain_y = 27.5;
+bear_retain_l = ((bearing_l+bearing_sep/2)-bear_retain_y)*2;
+bear_retain_r = 3.5/2;
+bear_retain_hole_w=2.5;
+bear_retain_hole_h=6;
+
+
+
 // Top level
 mirror([0,1,0]) half_part();
 half_part();
@@ -36,8 +47,9 @@ difference(){
             // Z bearing assembly
             translate([bearing_x-lug_w/2, -(bearing_l+bearing_sep/2),0]) cube([lug_w,bearing_l,bearing_z]);
                 translate([bearing_x, -(bearing_l+bearing_sep/2), bearing_z]) rotate([-90,0,0]) cylinder(r=(bearing_rad+bearing_wall), h=bearing_l);
-            translate([bearing_x-bearing_flange_w- bearing_gap/2, -(bearing_l+bearing_sep/2),bearing_z+bearing_rad]) cube([(bearing_gap+bearing_flange_w*2),bearing_l,bearing_flange_h]);
-              
+            
+            // Z bearing retainers
+            translate([-(bear_retain_w+bearing_rad),-bear_retain_y-bear_retain_l/2,0]) cube([bear_retain_w+bearing_rad, bear_retain_l, bear_retain_h]);
             
             // Z threaded rod assembly
             translate([bearing_to_rod,0,thread_rod_h/2]) cube([thread_rod_w,thread_rod_l, thread_rod_h], center=true);
@@ -47,9 +59,6 @@ difference(){
             
        // Z bearings
        translate([bearing_x, -big/2, bearing_z]) rotate([-90,0,0]) cylinder(r=bearing_rad, h=big);
-       translate([bearing_x, -big/2, bearing_z + big/2]) rotate([-90,0,0]) cube([bearing_gap,big,big], center=true);
-       translate([0, -(bearing_l+bearing_sep)/2,bearing_z+bearing_rad+bearing_flange_h/2]) rotate([0,90,0]) cylinder(r=bearing_flange_bolt_r, h = big);
-            
 
 
        // Belt tunnels
@@ -67,8 +76,7 @@ difference(){
             
        // Smooth rod nut hole
        translate([rod_nut_hole_x,-smooth_rod_sep/2,smooth_rod_z-big/2]) cube([rod_nut_hole_w,rod_nut_hole_l,big],center=true);
-       translate([-big/2, -smooth_rod_sep/2,smooth_rod_z]) rotate([0,90,0]) cylinder(r=rod_nut_hole_r, h = big);
-       
+       translate([-big/2, -smooth_rod_sep/2,smooth_rod_z]) rotate([0,90,0]) cylinder(r=rod_nut_hole_r, h = big);   
        
       translate([rod_nut_hole_x,-smooth_rod_sep/2,smooth_rod_z]) rotate([0,90,0]) cylinder(r=rod_nut_hole_l/2/cos(30), h=rod_nut_hole_w, center=true, $fa=60); // Fake hexagon
        
@@ -79,6 +87,13 @@ difference(){
        translate([bearing_to_idler_x,0,-small]) cylinder(r=idler_r_2,h=idler_h_2+small);
        }
        
+       // Z bearing retainers
+       translate([-big, -bear_retain_y, bearing_z]) rotate([0,90,0])cylinder(r=bear_retain_r , h=big);
+       translate([-(bear_retain_w/2+bearing_rad), -bear_retain_y-small/2, bearing_z]) rotate([-90,0,0]) rotate([0,90,0]) nut_pocket();
+       
+       
+       translate([bearing_x, -big/2, bearing_z + big/2]) rotate([-90,0,0]) cube([bearing_gap,big,big], center=true);
+            
        // Mirror line
        translate([-big/2,small,-big/2]) cube([big,big,big]);
         
